@@ -1,0 +1,11 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #f5f5f5;
+}
+.css-zxtyt4-MuiPaper-root-MuiAppBar-root{
+  background-color: black !important;
+  color: white !important;
+}
+
+
