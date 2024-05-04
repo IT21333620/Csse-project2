@@ -53,7 +53,7 @@ function ResponsiveDrawer(props) {
 
   function Footer() {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', py: 2, background: `url(${wallpaper})`, backgroundSize: 'cover', color: 'white', width: '100%', position: 'fixed', bottom: 0, right:0 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', py: 1, background: `url(${wallpaper})`, backgroundSize: 'cover', color: 'white', width: '100%', position: 'fixed', bottom: 0, right:0 }}>
       <Typography variant="body2">© {new Date().getFullYear()} Razer. All rights reserved.</Typography>
     </Box>
     );
