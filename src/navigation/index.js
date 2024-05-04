@@ -19,6 +19,11 @@ import History from "../history";
 import Home from "../home";
 import MarsRover from "../marsRover/marsRover";
 
+//Image imports 
+import nasaLogo from "../public/images/logo.png";
+import wallpaper from "../public/images/wallpaper.jpeg";
+import { Grid } from "@mui/material";
+
 const drawerWidth = 240;
 
 function ResponsiveDrawer(props) {
@@ -46,10 +51,19 @@ function ResponsiveDrawer(props) {
     setSelectedIndex(index);
   };
 
+  function Footer() {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', py: 2, background: `url(${wallpaper})`, backgroundSize: 'cover', color: 'white', width: '100%', position: 'fixed', bottom: 0, right:0 }}>
+      <Typography variant="body2">© {new Date().getFullYear()} Razer. All rights reserved.</Typography>
+    </Box>
+    );
+  }
+
   const drawer = (
     <div>
       <Toolbar sx={{ bgcolor: "black" }}>
-        <Typography sx={{ color: "white" }}>Menu</Typography>
+        <img src={nasaLogo} alt="NASA Logo" style={{ width: "50px", height: "50px",marginRight:'10px' }} />
+        <Typography sx={{ color: "white"}}>Menu</Typography>
       </Toolbar>
       <Divider />
       <List>
@@ -72,7 +86,7 @@ function ResponsiveDrawer(props) {
         <ListItem disablePadding>
           <ListItemButton onClick={(e) => handleNavbarButtonClick(2)}>
             <ListItemIcon>
-              <Icon icon="carbon:search" style={{ fontSize: "20px" }} />
+              <Icon icon="token:space" style={{ fontSize: "24px" }} />
             </ListItemIcon>
             <ListItemText primary="Mars Rover" />
           </ListItemButton>
@@ -95,7 +109,10 @@ function ResponsiveDrawer(props) {
           ml: { sm: `${drawerWidth}px` },
         }}
       >
-        <Toolbar>
+        <Toolbar 
+         //add a background image to the toolbar
+          sx={{backgroundImage: `url(${wallpaper})`, backgroundSize: 'cover', backgroundPosition: 'center'}}
+         >
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -158,9 +175,16 @@ function ResponsiveDrawer(props) {
         }}
       >
         <Toolbar />
+        <Grid container spacing={4}>
+          <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
         {selectedIndex === 0 && <Home />}
         {selectedIndex === 1 && <History />}
         {selectedIndex === 2 && <MarsRover />}
+          </Grid>
+          <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
+            <Footer />
+            </Grid>
+        </Grid>
       </Box>
     </Box>
   );

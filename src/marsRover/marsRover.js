@@ -52,15 +52,26 @@ const MarsRover = () => {
   const [cameraList, setCameraList] = useState([]);
   const [marsImages, setMarsImages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [loadedImages, setLoadedImages] = useState(new Set());
+  const [allImagesLoaded, setAllImagesLoaded] = useState(false);
+
+  const handleImageLoad = (id) => {
+    const newLoadedImages = new Set(loadedImages);
+    newLoadedImages.add(id);
+    setLoadedImages(newLoadedImages);
+
+    if (newLoadedImages.size === marsImages.length) {
+      setAllImagesLoaded(true);
+    }
+  };
 
   const handleCardClick = (index) => {
     if (selectedCard === index) {
       setSelectedCard(null); // Deselect the card if it's already selected
     } else {
       setSelectedCard(index); // Otherwise, select the card
-      setActiveStep(1)
+      setActiveStep(1);
     }
-
   };
 
   const handleChange = (event) => {
@@ -76,17 +87,17 @@ const MarsRover = () => {
   };
 
   useEffect(() => {
-    if(activeStep === 2){
-      setSelectedCamera("empty")
+    if (activeStep === 2) {
+      setSelectedCamera("empty");
     }
-  }, [activeStep])
+  }, [activeStep]);
 
   useEffect(() => {
     console.log(selectedCard);
     if (activeStep === 1 && sol == 0) {
       setIsLoading(true);
       apiDefinitions.roverManifest(selectedCard).then((response) => {
-        if (response.status === 200) {
+        if (response && response.status === 200) {
           console.log(response.data);
           setMaxSol(response.data.photo_manifest.max_sol);
           setData(response.data);
@@ -110,7 +121,7 @@ const MarsRover = () => {
       console.log(filteredPhotos);
 
       if (filteredPhotos.length === 0) {
-        setSelectedCamera("")
+        setSelectedCamera("");
         setActiveStep(1);
         toast.error("No photos available for selected SOL");
       } else {
@@ -151,7 +162,7 @@ const MarsRover = () => {
   };
 
   const handleBack = () => {
-      setSelectedCamera("");
+    setSelectedCamera("");
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
@@ -426,15 +437,27 @@ const MarsRover = () => {
                   xs={12}
                   sx={{ display: "flex", justifyContent: "center" }}
                 >
+                  {allImagesLoaded && (
+                    <p>Images failed to load (Cause: 307 Internal Redirect)</p>
+                  )}
                   <ImageList cols={3}>
                     {marsImages.map((item) => (
                       <ImageListItem key={item.id}>
-                        <img
-                          srcSet={`${item.img_src}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                          src={`${item.img_src}?w=164&h=164&fit=crop&auto=format`}
-                          alt={item.earth_date}
-                          loading="lazy"
-                        />
+                        {!loadedImages.has(item.id) && (
+                          <img
+                            srcSet={`${item.img_src.replace(
+                              /^http:\/\//i,
+                              "https://"
+                            )}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                            src={`${item.img_src.replace(
+                              /^http:\/\//i,
+                              "https://"
+                            )}?w=164&h=164&fit=crop&auto=format`}
+                            alt={item.earth_date}
+                            loading="lazy"
+                            onError={() => handleImageLoad(item.id)}
+                          />
+                        )}
                       </ImageListItem>
                     ))}
                   </ImageList>
@@ -442,7 +465,7 @@ const MarsRover = () => {
               </Fragment>
             </Grid>
           )
-        ) : activeStep === 1 || activeStep ===2 ?(
+        ) : activeStep === 1 || activeStep === 2 ? (
           <Fragment>
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
               <Button
@@ -459,7 +482,7 @@ const MarsRover = () => {
               </Button>
             </Box>
           </Fragment>
-        ) : (null)}
+        ) : null}
       </Box>
     </>
   );

@@ -1,22 +1,3 @@
-# Chosen APIs
-
-1. **APOD API**: This API displays the astronomy picture or video of the day and provides a brief description about the provided picture or video.
-
-2. **Mars Rover Photo API**: This API provides images gathered by NASA rovers named Curiosity, Spirit, and Opportunity. It allows users to input rover name, Martian days (SOL), camera name of the selected rover, mission manifest, and the Earth date the picture was taken.
-
-3. **Mars Rover Manifast API**: This api is used to check mars rover details.
-
-## Difficulties Faced
-
-1. **Making the Site Responsive with React Video Player**:
-   - **Problem**: Difficulty in making the site responsive when using the React video player.
-   - **Solution**: Implemented separate methods for making the video player responsive and for smaller devices.
-
-2. **Handling Picture Links for Spirit and Opportunity Rovers**:
-   - **Problem**: When selecting the Spirit or Opportunity rover and viewing the Mars rover pictures, the API provides a link to the picture which redirects to a NASA website instead of loading the picture, causing an error.
-   - **Solution**: Display "No Content Available" when pictures are not found.
-
-
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

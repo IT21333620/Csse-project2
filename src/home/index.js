@@ -38,9 +38,17 @@ const Home = () => {
         </Typography>
       </Grid>
       {apod.media_type === "video" ? (
-        <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
-          <ReactPlayer url={apod.url} />
-        </Grid>
+        <Grid item xs={12} sx={{ display: "flex", justifyContent: "center"}}>
+        <div style={{ position: "relative", width: "90%", paddingTop: "56.25%" }}>
+          {/* 16:9 aspect ratio */}
+          <ReactPlayer
+            url={apod.url}
+            style={{ position: "absolute", top: 0, left: 0 }}
+            width="100%"
+            height="100%"
+          />
+        </div>
+      </Grid>
       ) : null}
       {apod.media_type === "image" ? (
         <>
